@@ -50,6 +50,28 @@ public class UrlValidatorTest extends TestCase {
 	   System.out.println(urlVal.isValid("h3t://256.256.256.256:65535/$23?action=edit&mode=up"));
 	   System.out.println(urlVal.isValid("http://www.google.com:80/$23"));
 	   
+	   //test for valid and invalid ASCII characters
+	   assertTrue(urlVal.isValid("http://www.amazon.com"));
+	   assertFalse(urlVal.isValid("http://www.amäzon.com"));
+	   assertTrue(urlVal.isValid("https://www.facebook.com"));
+	   assertFalse(urlVal.isValid("https://www.fäcebook.com"));
+	   assertTrue(urlVal.isValid("http://oregonstate.edu/"));
+	   assertFalse(urlVal.isValid("http://orëgonstate.edu/"));
+	   
+	   //test for valid and invalid schemes
+	   assertTrue(urlVal.isValid("https://github.com/"));
+	   assertTrue(urlVal.isValid("http://github.com/"));
+	   //assertFalse(urlVal.isValid("htstps://github.com/")); //bug here - test fails, uncomment to verify
+	   //assertFalse(urlVal.isValid("ttps://github.com/")); //bug here - test fails, uncomment to verify
+	   
+	   //test for valid and invalid domain names
+	   assertTrue(urlVal.isValid("http://www.public.navy.mil/spawar/Pages/default.aspx"));
+	   assertTrue(urlVal.isValid("https://www.nasa.gov/"));
+	   //assertTrue(urlVal.isValid("https://www.bbc.co.uk/")); //bug here - test fails, uncomment to verify
+	   assertTrue(urlVal.isValid("http://www.scaphon.org/"));
+	   //assertTrue(urlVal.isValid("www.nzherald.co.nz/")); //bug here - test fails, uncomment to verify
+	   //assertTrue(urlVal.isValid("www.spiegel.de/international/")); //bug here - test fails, uncomment to verify
+	   //assertTrue(urlVal.isValid("http://localhost:400/")); //bug here - test fails, uncomment to verify
    }
    
    /*****************************Testing Scheme. *****************************/
