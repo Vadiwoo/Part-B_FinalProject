@@ -133,7 +133,7 @@ public class UrlValidatorTest extends TestCase {
 	   {
 		   int n = rand.nextInt(65535);
 		   System.out.println(n);
-		    testUrl = baseURL + ":" + n;
+		   testUrl = baseURL + ":" + n;
 		   result = (urlVal.isValid(testUrl));
 		   if(!result)
 		   System.out.println(n + "is invalid port");
@@ -185,10 +185,59 @@ public class UrlValidatorTest extends TestCase {
 
    public void testIsValid()
    {
-	   for(int i = 0;i<10000;i++)
+     //partition strings
+     String[] inValidScheme = {"htsp://", "hts://", "ht://",  "h://"};
+     //place second partition string here
+     String[] auth = {"", "https://www.amazon.com", "https://www.amazon.com:80"};
+     //fourth partition string here
+    String[] validQuery = {"search?q=junit&oq=junit&gs_l", "search?q=eclipse+ide&oq=eclipse+ide&gs_l=psy-ab.3", "search?q=how+to+write+bug+reports&oq=how+to+write+bug+reports&gs_l=psy-ab.3..0j0i22i30k1l3.81686.92729.0.93106.44.34.10.0.0.0.167.3411.22j12.34.0....0...1.1.64.psy-ab..0.44.3455...35i39k1j0i131k1j0i67k1j0i20k1.KUpHDCRFO00"};
+    String baseURL = "www.amazon.com";
+    String testUrl = baseURL;
+    System.out.println("Random Unit testing: ");
+    int randSeed = 10;
+    Random rand = new Random(randSeed);
+     for(int i = 0;i<10000;i++)
 	   {
+       UrlValidator urlVal = new UrlValidator(null, null, UrlValidator.ALLOW_ALL_SCHEMES);
+       //pull a random partition to test, range of 1 - 5
+       int randTest = rand.nextInt(5) + 1;
+       //pull a random element to test within the array, range of 1 - 5
+       int randElement = rand.nextInt(3) + 1;
+       //random unit for port Testing
+       int randPort = rand.nextInt(160) + 1;
+       //now handle various partition tests
+       if(randTest == 1)
+       {
+         testUrl = inValidScheme[randElement] +baseURL;
+ 		     result = (urlVal.isValid(testUrl));
+ 		     if(result)
+ 		     System.out.println("Expected Result : FALSE    Actual Result : "+result);
+       }
+       else if(randTest == 2)
+       {
+
+       }
+       else if(randTest == 3)
+       {
+         testUrl = baseURL + ":" + randPort;
+  		   result = (urlVal.isValid(testUrl));
+  		   if(!result)
+  		     System.out.println(randPort + "is invalid port");
+       }
+       else if (randTest == 4)
+       {
+
+       }
+       else
+       {
+         testUrl += validQuery[randElement];
+ 		     result = (urlVal.isValid(testUrl));
+ 		     if(result)
+ 		      System.out.println("Expected Result : TRUE    Actual Result : "+result);
+       }
 
 	   }
+     System.out.println("Testing is finished.")
    }
 
    public void testAnyOtherUnitTest()
