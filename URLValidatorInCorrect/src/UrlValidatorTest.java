@@ -103,13 +103,36 @@ public class UrlValidatorTest extends TestCase {
    }
    /*****************************Testing Authority *****************************/
    public void testYourSecondPartition(){
+	   UrlValidator urlVal = new UrlValidator(null, null, UrlValidator.ALLOW_ALL_SCHEMES);
+	   String[] domainName = new String[6];
+	   int largeNumber = 1000;
+	   
+	   domainName[0] = "https://www.amazon.com";
+	   domainName[1] = "https://www.amazon.ca";
+	   domainName[2] = "https://www.facebook.com";
+	   domainName[3] = "https://www.google.com";
+	   domainName[4] = "https://www.google.ca";
+	   domainName[5] = "https://www.reddit.com";
+	   
+	   Random rand = new Random();
 
-
-
-
-
-
-
+	   System.out.println("Testing Valid Authority (Port 80): ");
+	   for (int i = 0; i <6; i++) {
+		   String URL = domainName[i] + ":80";
+		   boolean validAuthority = urlVal.isValid(domainName[i]);
+		   System.out.println("Expected Result : true    Actual Result : "+ validAuthority);
+	   }
+	   
+	   System.out.println("Testing invalid Authority: ");
+	   for (int i = 0; i < largeNumber; i++) {
+		   int randPort = rand.nextInt(65535);
+		   int randHostName = rand.nextInt(5);
+		   
+		   String URL = domainName[randHostName] + ":" + randPort;
+		   boolean result = urlVal.isValid(URL);
+		   
+		   System.out.println("Expected Result : false    Actual Result : " + result + "   Port: " + randPort);
+	   }
    }
    /*****************************Testing Authority *****************************/
    public void testYourThirdPartition(){
@@ -144,12 +167,33 @@ public class UrlValidatorTest extends TestCase {
    }
    /*****************************Testing Path *****************************/
    public void testYourFourthPartition(){
+	   UrlValidator urlVal = new UrlValidator(null, null, UrlValidator.ALLOW_ALL_SCHEMES);
+	   String domainName = "https://amazon.com/";
+	   boolean testPathResult;
+	   
+	   String[] URLArray = new String[6];
 
+	   URLArray[0] = domainName + "home";
+	   URLArray[1] = domainName + "gp/goldbox/ref=nav_cs_gbn";
+	   URLArray[2] = domainName + "ref=nav_upnav_LargeImage_C_Homepage";
+	   
+	   URLArray[3] = domainName + "googlymoogly";
+	   URLArray[4] = domainName + "https://amazon.com/idontthinkiexist123";
+	   URLArray[5] = domainName + "https://amazon.com/123456789";
+	   
+	   System.out.println("Testing Valid Path : ");
+	   //Loop testing all values that should be true
+		for (int i = 0; i < 3; i++) {
+			testPathResult = urlVal.isValid(URLArray[i]);
+			System.out.println("Expected Result : true    Actual Result : "+ testPathResult);
+		}
 
-
-
-
-
+	   System.out.println("Testing Invalid Path : ");
+	   //Loop testing all values that should be false
+		for (int i = 3; i < 7; i++) {
+			testPathResult = urlVal.isValid(URLArray[i]);
+			System.out.println("Expected Result : false    Actual Result : "+ testPathResult);
+		}
 
    }
 
