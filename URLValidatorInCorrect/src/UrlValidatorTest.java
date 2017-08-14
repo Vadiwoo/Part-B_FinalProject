@@ -174,7 +174,7 @@ public class UrlValidatorTest extends TestCase {
 	   String[] URLArray = new String[6];
 
 	   URLArray[0] = domainName + "home";
-	   URLArray[1] = domainName + "B00DBYBNEE?_encoding=UTF8&ref_=nav_logo_prime_join";
+	   URLArray[1] = domainName + "gp/goldbox/ref=nav_cs_gbn";
 	   URLArray[2] = domainName + "ref=nav_upnav_LargeImage_C_Homepage";
 	   
 	   URLArray[3] = domainName + "googlymoogly";
