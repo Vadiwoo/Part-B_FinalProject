@@ -232,24 +232,33 @@ public class UrlValidatorTest extends TestCase {
      //partition strings
      String[] inValidScheme = {"htsp://", "hts://", "ht://",  "h://"};
      //place second partition string here
-     String[] auth = {"", "https://www.amazon.com", "https://www.amazon.com:80"};
+     String[] validAuth = {"https://www.amazon.com", "https://www.amazon.com:80", "https://amazon.com"};
      //fourth partition string here
     String[] validQuery = {"search?q=junit&oq=junit&gs_l", "search?q=eclipse+ide&oq=eclipse+ide&gs_l=psy-ab.3", "search?q=how+to+write+bug+reports&oq=how+to+write+bug+reports&gs_l=psy-ab.3..0j0i22i30k1l3.81686.92729.0.93106.44.34.10.0.0.0.167.3411.22j12.34.0....0...1.1.64.psy-ab..0.44.3455...35i39k1j0i131k1j0i67k1j0i20k1.KUpHDCRFO00"};
+    //random paths
+    String[] validPath = {"/gp/help", "gp/help/customer", "/b/?&node=5160028011", "adprefs", "/p/feature/rzekmvyjojcp6uc"};
+
     String baseURL = "www.amazon.com";
     String testUrl = baseURL;
     System.out.println("Random Unit testing: ");
     int randSeed = 10;
+    boolean result;
     Random rand = new Random(randSeed);
      for(int i = 0;i<10000;i++)
 	   {
        UrlValidator urlVal = new UrlValidator(null, null, UrlValidator.ALLOW_ALL_SCHEMES);
        //pull a random partition to test, range of 1 - 5
        int randTest = rand.nextInt(5) + 1;
+       //pull a random auth
+       int randAuth = rand.nextInt(3);
        //pull a random element to test within the array, range of 1 - 5
        int randElement = rand.nextInt(3) + 1;
        //random unit for port Testing
        int randPort = rand.nextInt(160) + 1;
+       //random path
+       int randPath = rand.nextInt(5);
        //now handle various partition tests
+       //test schemes
        if(randTest == 1)
        {
          testUrl = inValidScheme[randElement] +baseURL;
@@ -257,10 +266,16 @@ public class UrlValidatorTest extends TestCase {
  		     if(result)
  		     System.out.println("Expected Result : FALSE    Actual Result : "+result);
        }
+       //test authorities
        else if(randTest == 2)
        {
+    	   	testUrl = validAuth[randAuth];
+    	   		result = (urlVal.isValid(testUrl));
+    	   		if (!result)
+    	   			System.out.println("Expected Result : TRUE    Actual Result:" + result);
 
        }
+       //test random ports
        else if(randTest == 3)
        {
          testUrl = baseURL + ":" + randPort;
@@ -268,10 +283,15 @@ public class UrlValidatorTest extends TestCase {
   		   if(!result)
   		     System.out.println(randPort + "is invalid port");
        }
+       //test paths
        else if (randTest == 4)
        {
-
+    	   	testUrl = baseURL + validPath[randPath];
+    	   		result = (urlVal.isValid(testUrl));
+    	   		if (!result)
+    	   			System.out.println(testUrl + "is an invalid URL/Path");
        }
+       //test valid queries
        else
        {
          testUrl += validQuery[randElement];
@@ -281,7 +301,7 @@ public class UrlValidatorTest extends TestCase {
        }
 
 	   }
-     System.out.println("Testing is finished.")
+     System.out.println("Testing is finished.");
    }
 
    public void testAnyOtherUnitTest()
