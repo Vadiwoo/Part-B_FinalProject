@@ -304,11 +304,72 @@ public class UrlValidatorTest extends TestCase {
      System.out.println("Testing is finished.");
    }
 
-   public void testAnyOtherUnitTest()
+  public void testAnyOtherUnitTest()
    {
-
+	    {
+		   UrlValidator urlVal = new UrlValidator(null, null, UrlValidator.ALLOW_ALL_SCHEMES);
+		   String testURL = "";
+		   boolean expectedResult;
+		   boolean actualResult;
+		   for (int i = 0; i < testUrlScheme.length; i++) {
+			   for (int j = 0; j < testUrlAuthority.length; j++) {
+				   for (int k = 0; k < testUrlPort.length; k++) {
+					   for (int l = 0; l < testUrlPath.length; l++) {
+						   for (int m = 0; m < testUrlQuery.length; m++) {
+								   testURL = testUrlScheme[i].item + testUrlAuthority[j].item + testUrlPort[k].item + testUrlPath[l].item + testUrlQuery[m].item ;
+								   expectedResult = testUrlScheme[i].valid && testUrlAuthority[j].valid && testUrlPort[k].valid && testUrlPath[l].valid && testUrlQuery[m].valid;
+								   actualResult = urlVal.isValid(testURL);
+								   if (actualResult == expectedResult){
+									   System.out.println("Passed: The URL \"" + testURL + "\" was correctly identified by isValid() as " + actualResult + ".");
+								   } else {
+									   System.out.println("Failed: The URL \"" + testURL + "\" was incorrectly identified by isValid() as " + actualResult + ".");
+								   }
+							   }
+					   }
+				   }
+			   }
+		   }
+	   }
+		
    }
 
+   ResultPair[] testUrlScheme = {new ResultPair("htsp://", false),
+           new ResultPair("hts://", false),
+           new ResultPair("h3t://", true),
+           new ResultPair("ht://", false),
+           new ResultPair("h:/", false),
+           new ResultPair("", true)};
+
+ResultPair[] testUrlAuthority = {new ResultPair("www.amazon.com", true),
+              new ResultPair("amazon.ca", false),
+              new ResultPair("facebook.com", true),
+              new ResultPair("google.com", true),
+              new ResultPair("google.ca", false),
+              new ResultPair("reddit.com", true),
+              
+};
+ResultPair[] testUrlPort = {new ResultPair(":80", true),
+         new ResultPair(":65535", true),
+         new ResultPair(":0", true),
+         new ResultPair("", true),
+         new ResultPair(":-1", false),
+         new ResultPair(":65636", true),
+         new ResultPair(":65a", false)
+};
+ResultPair[] testUrlPath = {new ResultPair("/home", true),
+      new ResultPair("/gp/goldbox/ref=nav_cs_gbn", true),
+      new ResultPair("/ref=nav_upnav_LargeImage_C_Homepage", true),
+      new ResultPair("googlymoogly", false),
+      new ResultPair("//123456789", false),
+      new ResultPair("/test1/", true),
+      new ResultPair("", true),
+   
+};
 
 
+ResultPair[] testUrlQuery = {new ResultPair("search?q=junit&oq=junit&gs_l", true),
+          new ResultPair("search?q=eclipse+ide&oq=eclipse+ide&gs_l=psy-ab.3", true),
+          new ResultPair("search?q=how+to+write+bug+reports&oq=how+to+write+bug+reports&gs_l=psy-ab.3..0j0i22i30k1l3.81686.92729.0.93106.44.34.10.0.0.0.167.3411.22j12.34.0....0...1.1.64.psy-ab..0.44.3455...35i39k1j0i131k1j0i67k1j0i20k1.KUpHDCRFO00", true)
+};
+       
 }
