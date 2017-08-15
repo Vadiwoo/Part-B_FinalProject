@@ -61,17 +61,17 @@ public class UrlValidatorTest extends TestCase {
 	   //test for valid and invalid schemes
 	   assertTrue(urlVal.isValid("https://github.com/"));
 	   assertTrue(urlVal.isValid("http://github.com/"));
-	   //assertFalse(urlVal.isValid("htstps://github.com/")); //bug here - test fails, uncomment to verify
-	   //assertFalse(urlVal.isValid("ttps://github.com/")); //bug here - test fails, uncomment to verify
+	   assertFalse(urlVal.isValid("htstps://github.com/")); //bug here - test fails, uncomment to verify
+	   assertFalse(urlVal.isValid("ttps://github.com/")); //bug here - test fails, uncomment to verify
 
 	   //test for valid and invalid domain names
 	   assertTrue(urlVal.isValid("http://www.public.navy.mil/spawar/Pages/default.aspx"));
 	   assertTrue(urlVal.isValid("https://www.nasa.gov/"));
-	   //assertTrue(urlVal.isValid("https://www.bbc.co.uk/")); //bug here - test fails, uncomment to verify
+	   assertTrue(urlVal.isValid("https://www.bbc.co.uk/")); //bug here - test fails, uncomment to verify
 	   assertTrue(urlVal.isValid("http://www.scaphon.org/"));
-	   //assertTrue(urlVal.isValid("www.nzherald.co.nz/")); //bug here - test fails, uncomment to verify
-	   //assertTrue(urlVal.isValid("www.spiegel.de/international/")); //bug here - test fails, uncomment to verify
-	   //assertTrue(urlVal.isValid("http://localhost:400/")); //bug here - test fails, uncomment to verify
+	   assertTrue(urlVal.isValid("www.nzherald.co.nz/")); //bug here - test fails, uncomment to verify
+	   assertTrue(urlVal.isValid("www.spiegel.de/international/")); //bug here - test fails, uncomment to verify
+	   assertTrue(urlVal.isValid("http://localhost:400/")); //bug here - test fails, uncomment to verify
    }
 
    /*****************************Testing Scheme. *****************************/
@@ -106,14 +106,14 @@ public class UrlValidatorTest extends TestCase {
 	   UrlValidator urlVal = new UrlValidator(null, null, UrlValidator.ALLOW_ALL_SCHEMES);
 	   String[] domainName = new String[6];
 	   int largeNumber = 1000;
-	   
+
 	   domainName[0] = "https://www.amazon.com";
 	   domainName[1] = "https://www.amazon.ca";
 	   domainName[2] = "https://www.facebook.com";
 	   domainName[3] = "https://www.google.com";
 	   domainName[4] = "https://www.google.ca";
 	   domainName[5] = "https://www.reddit.com";
-	   
+
 	   Random rand = new Random();
 
 	   System.out.println("Testing Valid Authority (Port 80): ");
@@ -122,15 +122,15 @@ public class UrlValidatorTest extends TestCase {
 		   boolean validAuthority = urlVal.isValid(domainName[i]);
 		   System.out.println("Expected Result : true    Actual Result : "+ validAuthority);
 	   }
-	   
+
 	   System.out.println("Testing invalid Authority: ");
 	   for (int i = 0; i < largeNumber; i++) {
 		   int randPort = rand.nextInt(65535);
 		   int randHostName = rand.nextInt(5);
-		   
+
 		   String URL = domainName[randHostName] + ":" + randPort;
 		   boolean result = urlVal.isValid(URL);
-		   
+
 		   System.out.println("Expected Result : false    Actual Result : " + result + "   Port: " + randPort);
 	   }
    }
@@ -170,17 +170,17 @@ public class UrlValidatorTest extends TestCase {
 	   UrlValidator urlVal = new UrlValidator(null, null, UrlValidator.ALLOW_ALL_SCHEMES);
 	   String domainName = "https://amazon.com/";
 	   boolean testPathResult;
-	   
+
 	   String[] URLArray = new String[6];
 
 	   URLArray[0] = domainName + "home";
 	   URLArray[1] = domainName + "gp/goldbox/ref=nav_cs_gbn";
 	   URLArray[2] = domainName + "ref=nav_upnav_LargeImage_C_Homepage";
-	   
+
 	   URLArray[3] = domainName + "googlymoogly";
 	   URLArray[4] = domainName + "https://amazon.com/idontthinkiexist123";
 	   URLArray[5] = domainName + "https://amazon.com/123456789";
-	   
+
 	   System.out.println("Testing Valid Path : ");
 	   //Loop testing all values that should be true
 		for (int i = 0; i < 3; i++) {
@@ -330,7 +330,7 @@ public class UrlValidatorTest extends TestCase {
 			   }
 		   }
 	   }
-		
+
    }
 
    ResultPair[] testUrlScheme = {new ResultPair("htsp://", false),
@@ -346,7 +346,7 @@ ResultPair[] testUrlAuthority = {new ResultPair("www.amazon.com", true),
               new ResultPair("google.com", true),
               new ResultPair("google.ca", false),
               new ResultPair("reddit.com", true),
-              
+
 };
 ResultPair[] testUrlPort = {new ResultPair(":80", true),
          new ResultPair(":65535", true),
@@ -363,7 +363,7 @@ ResultPair[] testUrlPath = {new ResultPair("/home", true),
       new ResultPair("//123456789", false),
       new ResultPair("/test1/", true),
       new ResultPair("", true),
-   
+
 };
 
 
@@ -371,5 +371,5 @@ ResultPair[] testUrlQuery = {new ResultPair("search?q=junit&oq=junit&gs_l", true
           new ResultPair("search?q=eclipse+ide&oq=eclipse+ide&gs_l=psy-ab.3", true),
           new ResultPair("search?q=how+to+write+bug+reports&oq=how+to+write+bug+reports&gs_l=psy-ab.3..0j0i22i30k1l3.81686.92729.0.93106.44.34.10.0.0.0.167.3411.22j12.34.0....0...1.1.64.psy-ab..0.44.3455...35i39k1j0i131k1j0i67k1j0i20k1.KUpHDCRFO00", true)
 };
-       
+
 }
