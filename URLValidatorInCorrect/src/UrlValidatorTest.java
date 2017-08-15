@@ -134,14 +134,14 @@ public class UrlValidatorTest extends TestCase {
 		   System.out.println("Expected Result : false    Actual Result : " + result + "   Port: " + randPort);
 	   }
    }
-   /*****************************Testing Authority *****************************/
+   /*****************************Testing Port *****************************/
    public void testYourThirdPartition(){
 	   UrlValidator urlVal = new UrlValidator(null, null, UrlValidator.ALLOW_ALL_SCHEMES);
 
 	   String baseURL = "https://www.amazon.com";
 
 	   String testUrl =  baseURL + ":80";
-	   System.out.println("Testing Valid Scheme : ");
+	   System.out.println("Testing Valid Port : ");
 	   boolean result = urlVal.isValid(testUrl);
 
 	   System.out.println("Expected Result : TRUE    Actual Result : "+result);
@@ -150,7 +150,7 @@ public class UrlValidatorTest extends TestCase {
 
 
 
-	   System.out.println("Testing Invalid Scheme : ");
+	   System.out.println("Testing Invalid Port : ");
 	   //result = false; //these tests should return false
 	   for (int i = 0; i < 1000 ; i++)
 	   {
